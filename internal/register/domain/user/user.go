@@ -3,6 +3,7 @@ package user
 import (
 	"errors"
 	"server/internal/register/domain/notification"
+	"server/internal/register/domain/validator"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -34,20 +35,20 @@ func CreateUser(id string, name string, email string, password string) (*User, e
 func (user *User) isValid() error {
 	notification := notification.CreateNotification("user")
 
-	if message, valid := user.isIdValid(user.ID); !valid {
-		notification.AddError(message)
+	if validator.Id(user.ID) {
+		notification.AddError("Id is invalid")
 	}
 
-	if message, valid := user.isNameValid(user.Name); !valid {
-		notification.AddError(message)
+	if validator.Name(user.Name) {
+		notification.AddError("Name is invalid")
 	}
 
-	if message, valid := user.isEmailValid(user.Email); !valid {
-		notification.AddError(message)
+	if validator.Email(user.Email) {
+		notification.AddError("Email is invalid")
 	}
 
-	if message, valid := user.isPasswordValid(user.Password); !valid {
-		notification.AddError(message)
+	if validator.Password(user.Password) {
+		notification.AddError("Password is invalid")
 	}
 
 	if notification.HasError() {
@@ -55,38 +56,6 @@ func (user *User) isValid() error {
 	}
 
 	return nil
-}
-
-func (user *User) isIdValid(id string) (string, bool) {
-	if id == "" {
-		return "Id is invalid", false
-	}
-
-	return "", true
-}
-
-func (user *User) isNameValid(name string) (string, bool) {
-	if name == "" {
-		return "Name is invalid", false
-	}
-
-	return "", true
-}
-
-func (user *User) isEmailValid(email string) (string, bool) {
-	if email == "" {
-		return "Email is invalid", false
-	}
-
-	return "", true
-}
-
-func (user *User) isPasswordValid(password string) (string, bool) {
-	if password == "" {
-		return "Password is invalid", false
-	}
-
-	return "", true
 }
 
 func (user *User) EncryptPassword() error {
