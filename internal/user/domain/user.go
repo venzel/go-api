@@ -1,9 +1,9 @@
-package user
+package domain
 
 import (
 	"errors"
-	"server/internal/register/domain/notification"
-	"server/internal/register/domain/validator"
+	"server/internal/user/domain/notification"
+	"server/internal/user/domain/validator"
 
 	"golang.org/x/crypto/bcrypt"
 )

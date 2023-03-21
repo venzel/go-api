@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-	"server/internal/register/domain/user"
+	user "server/internal/user/domain"
 )
 
 func main() {
