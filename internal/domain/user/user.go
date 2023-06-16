@@ -1,9 +1,9 @@
-package domain
+package user
 
 import (
 	"errors"
-	"server/internal/user/domain/notification"
-	"server/internal/user/domain/validator"
+	"server/internal/domain/user/notification"
+	"server/internal/domain/user/validator"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -35,19 +35,19 @@ func CreateUser(id string, name string, email string, password string) (*User, e
 func (user *User) isValid() error {
 	notification := notification.CreateNotification("user")
 
-	if validator.Id(user.ID) {
+	if !validator.Id(user.ID) {
 		notification.AddError("Id is invalid")
 	}
 
-	if validator.Name(user.Name) {
+	if !validator.Name(user.Name) {
 		notification.AddError("Name is invalid")
 	}
 
-	if validator.Email(user.Email) {
+	if !validator.Email(user.Email) {
 		notification.AddError("Email is invalid")
 	}
 
-	if validator.Password(user.Password) {
+	if !validator.Password(user.Password) {
 		notification.AddError("Password is invalid")
 	}
 
