@@ -1,20 +1,15 @@
-package main
+package user
 
 import (
-	"net/http"
+	"fmt"
 	"server/internal/domain/user"
 	"server/internal/handlers"
 	"server/internal/infra/database"
-
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 )
 
-func main() {
-	route := chi.NewRouter()
+type FactoryUserImpl struct{}
 
-	route.Use(middleware.Logger)
-
+func (f *FactoryUserImpl) Of() {
 	userRepository := database.UserRepository{}
 
 	userService := user.ServiceImpl{
@@ -25,9 +20,5 @@ func main() {
 		UserService: &userService,
 	}
 
-	route.Post("/users", handlers.HandlerError(userHandler.CreateUser))
-
-	port := ":3000"
-
-	http.ListenAndServe(port, route)
+	fmt.Println(userHandler)
 }

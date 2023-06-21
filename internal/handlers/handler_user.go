@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"net/http"
-	"server/internal/domain/user/dtos"
+	"server/internal/domain/user"
 
 	"github.com/go-chi/render"
 )
 
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) (interface{}, int, error) {
-	var createUserDto dtos.CreateUserDto
+	var createUserDto user.CreateUserDto
 
 	render.DecodeJSON(r.Body, &createUserDto)
 

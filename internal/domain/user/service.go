@@ -1,19 +1,17 @@
 package user
 
-import (
-	"server/internal/domain/user/dtos"
-)
-
 type Service interface {
-	Create(d *dtos.CreateUserDto) (*dtos.ResponseUserDto, error)
+	Create(d *CreateUserDto) (*ResponseUserDto, error)
 }
 
 type ServiceImpl struct {
 	Repository Repository
 }
 
-func (s *ServiceImpl) Create(d *dtos.CreateUserDto) (*dtos.ResponseUserDto, error) {
-	user, err := CreateUser(d.ID, d.Name, d.Email, d.Password)
+func (s *ServiceImpl) Create(d *CreateUserDto) (*ResponseUserDto, error) {
+	id, name, email, password := d.ID, d.Name, d.Email, d.Password
+
+	user, err := CreateUser(id, name, email, password)
 
 	if err != nil {
 		return nil, err
@@ -25,10 +23,10 @@ func (s *ServiceImpl) Create(d *dtos.CreateUserDto) (*dtos.ResponseUserDto, erro
 		return nil, err
 	}
 
-	result := &dtos.ResponseUserDto{
-		ID:    user.ID,
-		Name:  user.Name,
-		Email: user.Email,
+	result := &ResponseUserDto{
+		ID:    id,
+		Name:  name,
+		Email: email,
 	}
 
 	return result, nil

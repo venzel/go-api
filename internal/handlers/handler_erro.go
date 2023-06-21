@@ -6,11 +6,11 @@ import (
 	"github.com/go-chi/render"
 )
 
-type HandleFn func(w http.ResponseWriter, r *http.Request) (interface{}, int, error)
+type HandleFunc func(w http.ResponseWriter, r *http.Request) (interface{}, int, error)
 
-func HandlerError(handleFn HandleFn) http.HandlerFunc {
+func HandlerError(handleFunc HandleFunc) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		obj, status, err := handleFn(w, r)
+		obj, status, err := handleFunc(w, r)
 
 		if err != nil {
 			render.JSON(w, r, map[string]string{"error": err.Error()})
